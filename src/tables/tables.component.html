@@ -2,45 +2,38 @@
     <h4 style="text-align: center;">Tables Work</h4>
 
     <div>
-        <mat-form-field appearance="fill"
-            [hideRequiredMarker]="false"
-            [floatLabel]="'always'">
-            <input matInput placeholder="Search" [(ngModel)]="searchInput" (keyup)="applySearchFilter($event)">
+        <mat-form-field floatLabel="never" style="width:24em;margin-right:12px;">
+            <mat-icon matPrefix>Search</mat-icon>
+            <mat-icon matSuffix *ngIf="searchRef.length" (click)="resetFilters('search')">cancel</mat-icon>
+            <input matInput placeholder="Search" [(ngModel)]='searchRef'
+                (keyup)="applySearchFilter($event)">            
         </mat-form-field>
+
+        <mat-form-field floatLabel="'never'" style="width:8em;margin-right:4px;">
+            <mat-select [(ngModel)]='statusFilterRef' (selectionChange)="onSelectionChange('status', $event)">
+                <mat-option [value]="0" selected>--Status--</mat-option>
+                <mat-option *ngFor="let opt of ticketMeta?.status" [value]="opt.id">{{opt.label}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field floatLabel="'never'" style="width:10em;margin-right:4px;">
+            <mat-select [(ngModel)]='priorityFilterRef' (selectionChange)="onSelectionChange('priorityId', $event)">
+                <mat-option [value]="0" selected>--Priority--</mat-option>
+                <mat-option *ngFor="let opt of ticketMeta?.priority" [value]="opt.priority_id">{{opt.priority_desc}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field floatLabel="'never'" style="width:10em;">
+            <mat-select [(ngModel)]='categoryFilterRef' (selectionChange)="onSelectionChange('categoryId', $event)">
+                <mat-option [value]="0" selected>--Category--</mat-option>
+                <mat-option *ngFor="let opt of ticketMeta?.allCategories" [value]="opt.ticket_cat_id">{{opt.ticket_cat_detail}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <button type="button" style="background-color: var(--primary);color:white;" (click)="resetFilters(null)">
+            Clear Filters
+        </button>
     </div>
 
-    <mat-form-field floatLabel="never" style="width:24em;margin-right:12px;">
-        <mat-icon matPrefix>Search</mat-icon>
-        <mat-icon matSuffix *ngIf="searchRef.length" (click)="resetFilters('search')">cancel</mat-icon>
-        <input matInput placeholder="Search" [(ngModel)]='searchRef'
-            (keyup)="applySearchFilter($event)">            
-    </mat-form-field>
-
-    <mat-form-field floatLabel="'never'" style="width:8em;margin-right:4px;">
-        <mat-select [(ngModel)]='statusFilterRef' (selectionChange)="onSelectionChange('status', $event)">
-            <mat-option [value]="0" selected>--Status--</mat-option>
-            <mat-option *ngFor="let opt of ticketMeta.status" [value]="opt.id">{{opt.label}}</mat-option>
-        </mat-select>
-    </mat-form-field>
-    <mat-form-field floatLabel="'never'" style="width:10em;margin-right:4px;">
-        <mat-select [(ngModel)]='priorityFilterRef' (selectionChange)="onSelectionChange('priorityId', $event)">
-            <mat-option [value]="0" selected>--Priority--</mat-option>
-            <mat-option *ngFor="let opt of ticketMeta.priority" [value]="opt.priority_id">{{opt.priority_desc}}</mat-option>
-        </mat-select>
-    </mat-form-field>
-    <mat-form-field floatLabel="'never'" style="width:10em;">
-        <mat-select [(ngModel)]='categoryFilterRef' (selectionChange)="onSelectionChange('categoryId', $event)">
-            <mat-option [value]="0" selected>--Category--</mat-option>
-            <mat-option *ngFor="let opt of ticketMeta.allCategories" [value]="opt.ticket_cat_id">{{opt.ticket_cat_detail}}</mat-option>
-        </mat-select>
-    </mat-form-field>
-
-    <button type="button" style="background-color: var(--primary);color:white;" (click)="resetFilters(null)">
-        Clear Filters
-    </button>
-
     <mat-table class="tickets-table mat-elevation-z8" [dataSource]="ticketList">
-        <caption><b>Very important data</b></caption>
 
         <ng-container matColumnDef="id">
             <mat-header-cell *matHeaderCellDef>#</mat-header-cell>

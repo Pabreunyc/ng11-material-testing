@@ -1,5 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatOptionSelectionChange } from '@angular/material/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { forkJoin } from 'rxjs';
 import { DatasourceService } from 'src/_services/datasource.service';
 
 @Component({
@@ -11,16 +13,13 @@ export class TablesComponent implements OnInit, OnDestroy {
 public displayedColumns:Array<string>;
 public ticketList = null;
 
+public currentFilters = new Map();
 public searchInput:string = '';
 public searchRef:string = '';
 public statusFilterRef;
 public priorityFilterRef;
 public categoryFilterRef;
-public ticketMeta = {
-  status: [],
-  priority: [],
-  allCategories: []
-}
+public ticketMeta;
 
   constructor(    
     private dataService:DatasourceService
@@ -39,40 +38,77 @@ public ticketMeta = {
     console.log('this.onRowSelect', row);
   }
 
-  applySearchFilter(evt) {
+  applySearchFilter(evt:Event) {
     let val = (evt.target as HTMLInputElement).value.trim().toLowerCase();
-    if(val.length >= 3) {
+    if(val.length >= 3)
       this.ticketList.filter = val;
-    }
   }
-  onSelectionChange(selectName:string, evt:Event) {
-    let val = (evt.target as HTMLInputElement).value;
-    console.log('this.onSelectionChange', val);
+  onSelectionChange(filterName:string, evt:MatOptionSelectionChange) {
+    filterName = (filterName || '').trim().toLocaleLowerCase();
+    let val = (evt as any).value;    
+    this.ticketList.filter = this.currentFilters.set(filterName, val);
   }
   
   resetFilters(mode:string) {
     console.log('this.resetFilters', mode);
+    this.searchRef = '';
+    this.ticketList.filter =  null;
+    this.currentFilters.clear();
+    this.statusFilterRef = this.priorityFilterRef = this.categoryFilterRef = null;
   }
 // ============================================================================
-private _init() {
-  this.displayedColumns = ['id', 'from', 'category', 'date'];
+  private _init() {
+    this.displayedColumns = ['id', 'from', 'category', 'date'];
 
-  this.ticketMeta.status = [
-    {id:100, label:"New"}, {id:200, label:'Open'}, {id:300, label:'Closed'}
-  ];
-  this.ticketMeta.priority = [
-    {priority_id:100, priority_desc:'Normal'}, {priority_id:200, priority_desc:'High'}
-  ];
-  this.ticketMeta.allCategories = [
-    {ticket_cat_id:100, ticket_cat_detail:'CAD'},{ticket_cat_id:100, ticket_cat_detail:'Olmsted'},{ticket_cat_id:100, ticket_cat_detail:'Unifier'},
-  ];
+    forkJoin([
+      this.dataService.getTicketList(),
+      this.dataService.getTicketMeta()
+    ]).subscribe(
+      ret => {
+        console.log(ret);
+        this.ticketMeta = ret[1];
+        this.ticketList = new MatTableDataSource( ret[0][0].slice(0,10) );
+        this.ticketList.filterPredicate = this.getFilterPredicate();
+      },
+      err => {
+        console.log('forkJoin.ERR', err);
+      },
+      () => { console.log('forkJoin.Complete'); }
+    );
 
-    this.dataService.getTicketList().subscribe(
-      list => {
-        console.log(list);
-        this.ticketList = new MatTableDataSource(list[0]);
+    
+  }
+
+  private getFilterPredicate() {
+    return (row:any, filters: string):boolean => {
+      let searchFound = [], selectsFound = [], flag = true;
+      console.log('fp', row.fullName); console.log('fp', filters);
+      
+      //dropdowns 
+      if(typeof filters == 'object') {
+        if(this.statusFilterRef) {
+          selectsFound.push(row.status == this.statusFilterRef);
+        }
+        if(this.priorityFilterRef) {
+          selectsFound.push(row.priorityId == this.priorityFilterRef);
+        }
+        if(this.categoryFilterRef) {
+          selectsFound.push(row.categoryId == this.categoryFilterRef);
+        }
+        //console.log(this.statusFilterRef, this.priorityFilterRef, this.categoryFilterRef, selectsFound);
+        // dropdowns take preference over text search
+        if( !selectsFound.every(Boolean) )
+          return false;
+        filters = '';
       }
-    )
-}
+    
+      let { fullName, subject } = row;
+      fullName = (fullName || '').trim().toLowerCase();
+      subject = (subject || '').trim().toLowerCase();
 
+      searchFound.push(fullName.includes(filters));
+      searchFound.push(subject.includes(filters));
+      return searchFound.some(Boolean);
+    }
+  }
 }
