@@ -1,7 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { TablesComponent } from 'src/tables/tables.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+  { path:'tables', component:TablesComponent }
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

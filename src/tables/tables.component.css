@@ -1,0 +1,19 @@
+mat-slider {
+    width: 300px;
+    border:1px solid red;
+}
+
+section {
+    width: 98%;
+    margin: 0 auto;
+}
+
+.mat-column-id {
+    flex:none;
+    /* align-items: flex-start; */
+    justify-content: center;
+    width: 32px !important;
+    border-right:1px solid lightgray;
+    color: black;
+    font-weight: bold;
+}
