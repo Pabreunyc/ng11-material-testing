@@ -1,11 +1,11 @@
-mat-slider {
-    width: 300px;
-    border:1px solid red;
-}
-
 section {
     width: 98%;
     margin: 0 auto;
+}
+
+.mat-table > .mat-row:hover {
+    background-color: lightyellow !important;
+    cursor: pointer;
 }
 
 .mat-column-id {
@@ -15,5 +15,27 @@ section {
     width: 32px !important;
     border-right:1px solid lightgray;
     color: black;
+    font-weight: bold;
+}
+
+.mat-column-category {    
+    align-items: flex-start;
+    background: azure;
+    flex-direction: column;
+}
+
+.ticket-info-bar {
+    list-style: none;
+    margin:0;
+    padding-left: 4px;;
+  }
+.ticket-info-bar li {
+    display: inline;
+    background: blue;
+    color: white;
+    margin: 0;
+    padding: 1px 4px;
+    border:1px solid white;
+    font-size: 10px;
     font-weight: bold;
 }

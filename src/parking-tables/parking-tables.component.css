@@ -1,0 +1,20 @@
+.mat-row:hover {
+    background-color: yellow;
+}
+
+.mat-column-status {
+    background:cadetblue;
+}
+.mat-column-dates ul {
+    list-style: none;
+    margin:0;
+}
+.mat-column-permitFor {
+    width: 25em !important;
+    background: blue;
+    flex: none;
+}
+
+.foo {
+    background: chartreuse;
+}

@@ -1,0 +1,49 @@
+
+
+<!-- 'E M/d/y h:mm a' -->
+<section class='p-grid' style="width: 98%;margin: 0 auto;">
+    <div class='p-col'>
+        <h1>Parking Queue</h1>
+        <mat-table class="tickets-table mat-elevation-z8" [dataSource]="permitsQueue">
+            <ng-container matColumnDef="dates">
+                <mat-header-cell *matHeaderCellDef>Dates</mat-header-cell>
+                <mat-cell *matCellDef="let q">
+                    <ul>
+                        <li>Req: {{q.date_requested | date: dateFormat1}}</li>
+                        <li>Gen: {{q.date_generated | date: dateFormat1}}</li>
+                    </ul>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="expDate">
+                <mat-header-cell *matHeaderCellDef>Expiration Date</mat-header-cell>
+                <mat-cell *matCellDef="let q">
+                    {{q.expiration_date | date: dateFormat1}}
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="status">
+                <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+                <mat-cell *matCellDef="let q">
+                    {{q.queue_status}}
+                    <div *ngIf="q.has_file" style="margin-left:1em">
+                        <button mat-icon-button color="accent" aria-label="Download permit" (click)="downloadPermit(q)">
+                            <mat-icon>save_alt</mat-icon>
+                        </button>
+                    </div>
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="permitFor">
+                <mat-header-cell *matHeaderCellDef>Permit For</mat-header-cell>
+                <mat-cell *matCellDef="let q">
+                    {{q.emp_full_name}}
+                </mat-cell>
+            </ng-container>
+    
+            <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>
+            <mat-row *matRowDef="let q; columns: displayColumns" 
+                [ngClass]="q.queue_status == 'Completed' ? 'foo' : ''">
+            </mat-row>
+        </mat-table>
+    </div>
+</section>

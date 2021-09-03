@@ -1,0 +1,37 @@
+<section class='p-grid' style="width:98%; margin:0 auto; border:1px solid chocolate;">
+    <div class='p-col wrapper'>
+        <ng-container *ngFor="let q of permitsQueue">
+            <mat-card class="mat-elevation-z4">
+                <mat-card-header ngClass="{{q.queue_status}}">
+                    <mat-card-title>{{q.emp_full_name}}</mat-card-title>
+                    <mat-card-subtitle *ngIf="q.emp_email">
+                        <mat-icon>alternate_email</mat-icon>&nbsp;{{q.emp_email}}
+                    </mat-card-subtitle>
+                </mat-card-header>
+
+                <mat-card-content>
+                    <ul>
+                        <li>Requested: {{q.date_requested | date: dateFormat}}</li>
+                        <li *ngIf="q.date_generated">Generated: <b>{{q.date_generated | date: dateFormat}}</b></li>
+                        <li *ngIf="q.days_to_expiration > 0">Expires in: {{q.days_to_expiration}} days</li>
+                    </ul>
+                </mat-card-content>
+
+                <mat-card-actions>
+                    <ng-container *ngIf="q.has_file">
+                        <button mat-icon-button color="primary" 
+                            aria-label="Download permit for {{q.emp_full_name}}" title="Download Permit: {{q.emp_full_name}}" 
+                            (click)="downloadPermit(q)">
+                            <mat-icon>save_alt</mat-icon>
+                        </button>
+                        <button mat-icon-button color="primary" 
+                            aria-label="Email permit to {{q.emp_full_name}}" title="Email Permit: {{q.emp_full_name}}" 
+                            (click)="downloadPermit(q)">
+                            <mat-icon>email</mat-icon>
+                        </button>
+                    </ng-container>
+                </mat-card-actions>
+            </mat-card>
+        </ng-container>
+    </div>
+</section>

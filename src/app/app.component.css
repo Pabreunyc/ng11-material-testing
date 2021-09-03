@@ -295,3 +295,19 @@
     }
   }
 */
+
+.bar {
+  list-style: none;
+  margin:0;
+  border: 1px solid aqua;
+}
+.bar li {
+  display: inline;
+  background: blue;
+  color: white;
+  margin: 0;
+  padding: 1px 4px;
+  border:1px solid white;
+  font-size: smaller;
+  font-weight: bold;
+}
