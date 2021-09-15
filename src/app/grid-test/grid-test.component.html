@@ -1,0 +1,26 @@
+<section id='container'>
+    <div>
+        <mat-list>
+            <mat-list-item *ngFor="let file of files">
+                <mat-icon mat-list-icon>folder</mat-icon>
+                <div mat-line>{{file.filename}}</div>
+                <div mat-line>{{file.userId}} &middot; {{file.dateCreated | date}}</div>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+        </mat-list>
+    </div>
+
+    <div>
+        <mat-form-field>
+            <mat-label>Attachments</mat-label>
+            <mat-select>
+                <mat-option>None</mat-option>
+                <mat-option *ngFor="let file of files" [value]="file" >
+                    <div><mat-icon mat-list-icon>folder</mat-icon><b>{{file.userId}}</b></div>
+                    <div>{{file.userId}}<mat-icon mat-list-icon>folder</mat-icon></div>
+
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+</section>

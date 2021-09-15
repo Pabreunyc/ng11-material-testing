@@ -11,6 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ParkingTablesComponent } from '../parking-tables/parking-tables.component';
 import { ParkingQueueComponent } from '../parking-tables/parking-queue/parking-queue.component';
 import { CardsComponent } from '../parking-tables/cards/cards.component';
+import { GridTestComponent } from './grid-test/grid-test.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { CardsComponent } from '../parking-tables/cards/cards.component';
     TablesComponent,
     ParkingTablesComponent,
     ParkingQueueComponent,
-    CardsComponent
+    CardsComponent,
+    GridTestComponent
   ],
   imports: [
     BrowserModule,    
