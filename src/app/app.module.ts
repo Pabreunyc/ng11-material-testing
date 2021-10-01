@@ -12,6 +12,7 @@ import { ParkingTablesComponent } from '../parking-tables/parking-tables.compone
 import { ParkingQueueComponent } from '../parking-tables/parking-queue/parking-queue.component';
 import { CardsComponent } from '../parking-tables/cards/cards.component';
 import { GridTestComponent } from './grid-test/grid-test.component';
+import { FiletestComponent } from '../filetest/filetest.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { GridTestComponent } from './grid-test/grid-test.component';
     ParkingTablesComponent,
     ParkingQueueComponent,
     CardsComponent,
-    GridTestComponent
+    GridTestComponent,
+    FiletestComponent
   ],
   imports: [
     BrowserModule,    
