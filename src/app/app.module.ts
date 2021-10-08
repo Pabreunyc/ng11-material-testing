@@ -13,6 +13,15 @@ import { ParkingQueueComponent } from '../parking-tables/parking-queue/parking-q
 import { CardsComponent } from '../parking-tables/cards/cards.component';
 import { GridTestComponent } from './grid-test/grid-test.component';
 import { FiletestComponent } from '../filetest/filetest.component';
+import { NaviComponent } from '../navi/navi.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { LoginComponent } from '../login/login.component';
+import { HomeComponent } from '../home/home.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +31,10 @@ import { FiletestComponent } from '../filetest/filetest.component';
     ParkingQueueComponent,
     CardsComponent,
     GridTestComponent,
-    FiletestComponent
+    FiletestComponent,
+    NaviComponent,
+    LoginComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,    
@@ -31,7 +43,13 @@ import { FiletestComponent } from '../filetest/filetest.component';
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
-    MaterialModule
+    MaterialModule,
+    LayoutModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule
   ],
   providers: [],
   bootstrap: [AppComponent]

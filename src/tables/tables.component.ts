@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { forkJoin } from 'rxjs';
+import { AuthService } from 'src/_services/auth.service';
 import { DatasourceService } from 'src/_services/datasource.service';
 
 @Component({
@@ -22,13 +23,15 @@ public priorityFilterRef;
 public categoryFilterRef;
 public ticketMeta;
 
-  constructor(    
+  constructor(
+    private authService:AuthService,
     private dataService:DatasourceService
   ) { }
 
   ngOnInit(): void {
     console.log('%cTablesCompoent', 'background:green;color:white;');
-    this._init();
+    console.log(this.authService.isLoggedIn());
+    //this._init();
   }
   ngOnDestroy(): void {
     console.log('%cTablesCompoent', 'background:red;color:black;');

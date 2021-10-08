@@ -1,11 +1,16 @@
+
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { concat, forkJoin, Observable, of } from 'rxjs';
-import { catchError, mergeMap, tap } from 'rxjs/operators';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
+
+const API = environment.apiUrl;
 @Injectable({
   providedIn: 'root'
 })
 export class DatasourceService {
+  private _randomUserSeed = "61036ae9cc988816";
 
   constructor(private http:HttpClient) { }
   
@@ -68,6 +73,23 @@ export class DatasourceService {
   }
   downloadPermit(id):any {
     return this.http.get(`http://localhost:8080/fileservicev2/download/parking/${id}`,  {responseType: 'text'});
+  }
+
+  getRandomUserData(pageSize:number=100, page:number=1) {
+    
+    return this.http.get(`https://randomuser.me/api/?seed=${this._randomUserSeed}&page=${page}&results=${pageSize}`).pipe(
+      catchError(
+        (err, caught) => {
+          console.log('err:', {err});
+          console.log('caught:', {caught});
+          return of(null);
+      }),
+      map(r => {
+        let id = 100;
+        r.results.map( p => p.id = id++ );
+        return {results: r.results, totalRecords:r.records.length};
+      })
+    );
   }
 }
 
