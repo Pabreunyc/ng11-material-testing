@@ -1,6 +1,6 @@
-<header>[{{isLoggedIn$ | async}}]</header>
+<header>[{{isLoggedIn$ | async}}] == [{{isLoggedIn}}]</header>
 
-<div *ngIf="isLoggedIn$">
+<div *ngIf="isLoggedIn$ | async">
   <ng-container *ngTemplateOutlet="template">
     <mat-sidenav-container class="sidenav-container">
       <mat-sidenav #drawer class="sidenav" fixedInViewport
@@ -38,12 +38,12 @@
   </ng-container>
 </div>
 
-<div *ngIf="!isLoggedIn$">
+<div *ngIf="!isLoggedIn$ | async">
   <ng-container *ngTemplateOutlet="template">
     <h4>What?!?!?</h4>    
   </ng-container>
 </div>
 
 <ng-template #template>
-  <router-outlet></router-outlet>
+  <router-outlet>Stuff Goes In Here</router-outlet>
 </ng-template>

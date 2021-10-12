@@ -10,7 +10,6 @@ const USERS = [
   providedIn: 'root'
 })
 export class AuthService {
-  private _isLoggedIn:boolean = false;
   private _userLoggedIn = new BehaviorSubject(false);
 
   public isLoggedIn$:Observable<boolean>;
@@ -21,9 +20,7 @@ export class AuthService {
 
   login(username:string, password:string):Observable<boolean> {
     username = (username || '').trim().toLowerCase();
-    password = (password || '').trim();
-    
-    this._isLoggedIn = true;
+    password = (password || '').trim();  
 
     this._userLoggedIn.next(true);
 
@@ -34,6 +31,7 @@ export class AuthService {
   }
 
   isLoggedIn():boolean {
+    console.log('checking login status:', this._userLoggedIn);
     return this._userLoggedIn.value;
   }
 }

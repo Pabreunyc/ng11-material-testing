@@ -14,6 +14,7 @@ import { AuthService } from 'src/_services/auth.service';
 export class AppComponent implements OnInit {
   // Breakpoints.Handset
   public isLoggedIn$ = this.authService.isLoggedIn$.pipe(tap(_ => { console.log(_, typeof _); }));
+  public isLoggedIn:boolean = false;
   public appTitle = environment.appTitle;
   public isHandset$: Observable<boolean> = this.breakpointObserver.observe([Breakpoints.Medium, Breakpoints.Small, Breakpoints.XSmall])
   .pipe(
@@ -27,7 +28,7 @@ export class AppComponent implements OnInit {
     private breakpointObserver: BreakpointObserver,
     private authService:AuthService
   ) {
-
+    this.isLoggedIn = authService.isLoggedIn();
   }
   ngOnInit(): void {
     console.log('%cAppComponent', 'background:purple;color:white;font-weight:bold');
