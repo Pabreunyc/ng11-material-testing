@@ -13,7 +13,10 @@ import { AuthService } from 'src/_services/auth.service';
 })
 export class AppComponent implements OnInit {
   // Breakpoints.Handset
-  public isLoggedIn$ = this.authService.isLoggedIn$.pipe(tap(_ => { console.log(_, typeof _); }));
+  public isLoggedIn$ = this.authService.isLoggedIn$.pipe(
+    tap(_ => { console.error('isLoggedIn$', _, typeof _); }),
+    shareReplay()
+  );
   public isLoggedIn:boolean = false;
   public appTitle = environment.appTitle;
   public isHandset$: Observable<boolean> = this.breakpointObserver.observe([Breakpoints.Medium, Breakpoints.Small, Breakpoints.XSmall])
